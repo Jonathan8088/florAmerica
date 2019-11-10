@@ -3,54 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entity;
-
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package Modelo;
 
 /**
  *
  * @author Jonathan
  */
-@Entity
-@Table
-public class Empleado implements Serializable{
+public class Trabajador {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "serial")
     private int id;
     
-    @Column
     private String nombre;
     
-    @Column
     private String cedula;
     
-    @Column
-    private String contrasena;
+    private String contraseña;
     
-    @Column
     private String area;
     
-    @Column
     private float salario;
     
-    @Column
     private boolean estado;
 
-    public Empleado() {
+    public Trabajador() {
     }
 
-    public Empleado(String nombre, String cedula, String contrasena, String area, float salario, boolean estado) {
+    public Trabajador(String nombre, String cedula, String contraseña, String area, float salario, boolean estado) {
         this.nombre = nombre;
         this.cedula = cedula;
-        this.contrasena = contrasena;
+        this.contraseña = contraseña;
         this.area = area;
         this.salario = salario;
         this.estado = estado;
@@ -80,12 +61,12 @@ public class Empleado implements Serializable{
         this.cedula = cedula;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getContraseña() {
+        return contraseña;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
     public String getArea() {
