@@ -30,4 +30,8 @@ public interface EmpleadoFacadeLocal {
 
     int count();
     
+    List<Empleado> findEmpleados();
+    
+    Empleado findEmpleado(String cedula); 
+            
 }

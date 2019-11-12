@@ -73,16 +73,15 @@ and open the template in the editor.
                                     <p:growl id="growl" life="5000" showDetail="true" sticky="true"/>
                                     <div class="top-margin">
                                         
-                                            <p:outputLabel value="Correo" class="text-danger" />
-                                            <p:inputText id="correo" value="#{logica.trabajador.area}" class="form-control" validatorMessage="#{operacion.error()}"  required="true">
-                                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]" /> 
-                                            </p:inputText>
+                                            <p:outputLabel value="Cedula" class="text-danger" />
+                                            <p:inputText id="correo" value="#{logica.trabajador.cedula}" class="form-control" validatorMessage="#{operacion.error()}"  required="true" />
+                                                   
                                        
     
                                     </div>
                                     <div class="top-margin">
                                         <p:outputLabel value="Contraseña" class="text-danger" />
-                                        <p:inputText id="pass" type="password" value="#{logica.trabajador.cedula}" class="form-control"  />
+                                        <p:inputText id="pass" type="password" value="#{logica.trabajador.contraseña}" class="form-control"  />
 
                                     </div>
 
@@ -91,8 +90,8 @@ and open the template in the editor.
                                     <div class="row">
 
                                         <div class="col-lg-4 text-right">
-
-                                            <p:commandButton class="btn btn-action" value="Ingresar" action ="#{logica.crearEmpleado()}" ajax="true" update="growl"/>
+                                            
+                                            <p:commandButton class="btn btn-action" value="Ingresar" action ="#{logica.validar()}" ajax="true" update="growl"/>
 
                                         </div>
                                     </div>

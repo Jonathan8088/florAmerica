@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta name="viewport"    content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content=""/>
+        <meta name="author"      content="Sergey Pozhilov (GetTemplate.com)"/>
+
+        <title>Editar</title>
+
+        <link rel="shortcut icon" href="assets/images/gt_favicon.png"/>
+
+        <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700"/>
+        <link rel="stylesheet" href="resources/assets/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="resources/assets/css/font-awesome.min.css"/>
+
+        <!-- Custom styles for our template -->
+        <link rel="stylesheet" href="resources/assets/css/bootstrap-theme.css" media="screen"/> >
+        <link rel="stylesheet" href="resources/assets/css/main.css"/>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+    </h:head>
+
+    <h:body  >
+        <h:form id="form">
+            <!-- Fixed navbar -->
+            <div class="navbar navbar-inverse navbar-fixed-top headroom" >
+                <div class="container">
+                    <div class="navbar-header">
+                        <!-- Button for smallest screens -->
+
+                        <a class="navbar-brand" ><img src="resources/assets/images/logo.png" alt="Progressus HTML5 template"/></a>
+                    </div>
+
+                </div>
+            </div> 
+            <!-- /.navbar -->
+
+            <header id="head" class="secondary"></header>
+
+            <!-- container -->
+            <div class="container">
+
+
+                <div class="row">
+
+                    <!-- Article main content -->
+                    <article class="col-xs-12 maincontent">
+                        <header class="page-header">
+                            <h1 class="page-title"><p:outputLabel value="Lista de empleados"/> </h1>
+                        </header>
+
+                        <p:dataTable id="empleados" var="trabajador" value="#{logica.traerEmpleados()}" editable="true"  editMode="cell" widgetVar="cellCars">
+
+                            <p:ajax event="rowEdit" listener="#{logica.onRowEdit}" update=":form:empleados" />
+                            <p:ajax event="rowEditCancel" listener="#{logica.onRowCancel}" update=":form:empleados" />
+                            <p:ajax event="cellEdit" listener="#{logica.onCellEdit}" update=":form:empleados" />
+                            
+                            <p:column headerText="Nombre">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{trabajador.nombre}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{trabajador.nombre}" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Cedula">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{trabajador.cedula}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{trabajador.cedula}" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Contraseña">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{trabajador.contrasena}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{trabajador.contrasena}" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Area">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{trabajador.area}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{trabajador.area}" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Salario">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{trabajador.salario}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{trabajador.salario}" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:35px">
+                                <p:rowEditor />
+                            </p:column>
+
+                            <p:column style="width:120px" headerText="Eliminar">
+                                <p:commandButton value="Eliminar" action="#{logica.Eliminar(trabajador)}" update=":form:empleados"/>
+                            </p:column>
+                        </p:dataTable>
+
+                        <h:form>
+                            <p:growl id="growl" life="5000" showDetail="true" sticky="true"/>
+
+                            <div class="container">
+
+                                <div class="row">
+
+                                    <p:commandButton class="btn btn-action" value="Ingresar" action ="#{logica.crearEmpleado()}" ajax="true" />
+                                    <p:button class="btn btn-action" value="Volver" href="administrador.xhtml" />
+                                </div>
+                            </div>
+                        </h:form>
+
+
+                    </article>
+                    <!-- /Article -->
+
+                </div>
+            </div>	<!-- /container -->
+
+
+            <footer id="footer" class="top-space">
+
+
+                <div class="footer1">
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-md-3 widget">
+                                <h3 class="widget-title">ESTUDIANTES</h3>
+                                <div class="widget-body">
+                                    <p>Julian David Bustos Mojica<br/>
+                                    </p>	
+                                    <p>Jonathan Stit Sosa Cortes<br/>
+                                    </p>	
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div> <!-- /row of widgets -->
+                    </div>
+                </div>
+
+
+            </footer>	
+
+
+
+
+
+            <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+            <script src="resources/assets/js/headroom.min.js"></script>
+            <script src="resources/assets/js/jQuery.headroom.min.js"></script>
+            <script src="resources/assets/js/template.js"></script>
+        </h:form>
+    </h:body>
+</html>

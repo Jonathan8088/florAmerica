@@ -33,15 +33,15 @@ public class SuperAdministrador implements Serializable{
     private String cedula;
     
     @Column
-    private String contraseña;
+    private String contrasena;
 
     public SuperAdministrador() {
     }
 
-    public SuperAdministrador(String nombre, String cedula, String contraseña) {
+    public SuperAdministrador(String nombre, String cedula, String contrasena) {
         this.nombre = nombre;
         this.cedula = cedula;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
     }
 
     public int getId() {
@@ -68,12 +68,12 @@ public class SuperAdministrador implements Serializable{
         this.cedula = cedula;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
     
     

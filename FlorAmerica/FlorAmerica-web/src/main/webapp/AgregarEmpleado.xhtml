@@ -15,7 +15,7 @@ and open the template in the editor.
         <meta name="description" content=""/>
         <meta name="author"      content="Sergey Pozhilov (GetTemplate.com)"/>
 
-        <title>Administrador</title>
+        <title>Agregar</title>
 
         <link rel="shortcut icon" href="assets/images/gt_favicon.png"/>
 
@@ -35,7 +35,7 @@ and open the template in the editor.
     </h:head>
 
     <h:body  >
-        <h:form>
+        <h:form id="principal">
             <!-- Fixed navbar -->
             <div class="navbar navbar-inverse navbar-fixed-top headroom" >
                 <div class="container">
@@ -60,21 +60,68 @@ and open the template in the editor.
                     <!-- Article main content -->
                     <article class="col-xs-12 maincontent">
                         <header class="page-header">
-                            <h1 class="page-title"><p:outputLabel value="Bienvenido Administrador"/> </h1>
-                            <p:megaMenu   style="margin-top:20px">
-                                <p:submenu label="Empleado" icon="pi pi-check">
-                                    <p:column>
-                                        <p:submenu label="Empleado">
-                                            <p:menuitem value="Agregar Empleado" url="AgregarEmpleado.xhtml" />
-                                            <p:menuitem value="Ver Empleados" url="EditarEmpleado.xhtml" />
-                                        </p:submenu>
-                                    </p:column>
-                                </p:submenu>
-                            </p:megaMenu>
-
+                            <h1 class="page-title"><p:outputLabel value="Agregar Empleado"/> </h1>
                         </header>
 
-                        
+                        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <h3 class="thin text-center"><p:outputLabel class="thin text-center" value="Datos del empleado" /></h3>
+                                    
+
+
+                                    <h:form>
+                                        <p:growl id="growl" life="5000" showDetail="true" sticky="true"/>
+                                        <div class="top-margin">
+
+                                            <p:outputLabel value="Nombre" class="text-danger" />
+                                            <p:inputText id="correo" value="#{logica.trabajador.nombre}" class="form-control" validatorMessage="#{operacion.error()}"  required="true">
+
+                                            </p:inputText>
+
+
+                                        </div>
+                                        <div class="top-margin">
+                                            <p:outputLabel value="Cedula" class="text-danger" />
+                                            <p:inputText id="cedula" value="#{logica.trabajador.cedula}" class="form-control"  />
+
+                                        </div>
+
+                                        <div class="top-margin">
+                                            <p:outputLabel value="Contraseña" class="text-danger" />
+                                            <p:inputText id="pass" value="#{logica.trabajador.contraseña}" class="form-control"  />
+
+                                        </div>
+
+                                        <div class="top-margin">
+                                            <p:outputLabel value="Area" class="text-danger" />
+                                            <p:inputText id="area" value="#{logica.trabajador.area}" class="form-control"  />
+
+                                        </div>
+
+                                        <div class="top-margin">
+                                            <p:outputLabel value="Salario" class="text-danger" />
+                                            <p:inputText id="salario" type="number" value="#{logica.trabajador.salario}" class="form-control"  />
+
+                                        </div>
+
+
+                                        <div class="container">
+                                            
+                                                <div class="row">
+
+                                                    <p:commandButton class="btn btn-action" value="Guardar" action ="#{logica.crearEmpleado(logica.trabajador)}" ajax="true" update=":principal"/>
+                                                    <p:button class="btn btn-action" value="Volver" href="administrador.xhtml"/>
+
+                                                </div>
+                                            
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+
+                        </div>
 
                     </article>
                     <!-- /Article -->

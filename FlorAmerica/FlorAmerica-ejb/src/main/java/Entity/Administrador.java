@@ -36,7 +36,7 @@ public class Administrador implements Serializable{
     private String cedula;
     
     @Column
-    private String contrseña;
+    private String contrasena;
     
     @Column
     private float salario;
@@ -44,11 +44,11 @@ public class Administrador implements Serializable{
     public Administrador() {
     }
 
-    public Administrador(String nombre, String cargo, String cedula, String contrseña, float salario) {
+    public Administrador(String nombre, String cargo, String cedula, String contrasena, float salario) {
         this.nombre = nombre;
         this.cargo = cargo;
         this.cedula = cedula;
-        this.contrseña = contrseña;
+        this.contrasena = contrasena;
         this.salario = salario;
     }
 
@@ -84,12 +84,12 @@ public class Administrador implements Serializable{
         this.cedula = cedula;
     }
 
-    public String getContrseña() {
-        return contrseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContrseña(String contrseña) {
-        this.contrseña = contrseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public float getSalario() {
