@@ -42,7 +42,69 @@ and open the template in the editor.
                     <div class="navbar-header">
                         <!-- Button for smallest screens -->
 
+<<<<<<< HEAD
                         <a class="navbar-brand" ><img src="resources/assets/images/logo.png" alt="Progressus HTML5 template"/></a>
+=======
+                    <a class="navbar-brand" ><img src="resources/assets/images/logo.png" alt="Progressus HTML5 template"/></a>
+                </div>
+
+            </div>
+        </div> 
+        <!-- /.navbar -->
+
+        <header id="head" class="secondary"></header>
+
+        <!-- container -->
+        <div class="container">
+
+
+            <div class="row">
+
+                <!-- Article main content -->
+                <article class="col-xs-12 maincontent">
+                    <header class="page-header">
+                        <h1 class="page-title"><p:outputLabel value="Bienvenido Administrador"/> </h1>
+                    </header>
+
+                    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+
+                                <h3 class="thin text-center"><p:outputLabel class="thin text-center" value="LOGIN" /></h3>
+
+
+                                <h:form>
+                                    <p:growl id="growl" life="5000" showDetail="true" sticky="true"/>
+                                    <div class="top-margin">
+                                        
+                                            <p:outputLabel value="menu" class="text-danger" />
+                                            <p:inputText id="correo" value="#{logica.empleado.nombre}" class="form-control" validatorMessage="#{operacion.error()}"  required="true">
+                                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]" /> 
+                                            </p:inputText>
+                                       
+    
+                                    </div>
+                                    <div class="top-margin">
+                                        <p:outputLabel value="Contraseña" class="text-danger" />
+                                        <p:inputText id="pass" type="password" value="#{logica.empleado.contrasena}" class="form-control"  />
+
+                                    </div>
+
+
+
+                                    <div class="row">
+
+                                        <div class="col-lg-4 text-right">
+
+                                            <p:commandButton class="btn btn-action" value="Ingresar" action ="#{logica.crearEmpleado()}" ajax="true" update="growl"/>
+
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+
+>>>>>>> origin/master
                     </div>
 
                 </div>

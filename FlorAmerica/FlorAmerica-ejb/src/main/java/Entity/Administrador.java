@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -19,6 +21,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table
+@NamedQueries({
+    @NamedQuery(name = "buscarCedula", query = "SELECT ADMIN FROM Administrador admin WHERE ADMIN.cedula = :cedula"),
+    @NamedQuery(name = "traerCedulaAdministrador", query = "SELECT ADMIN.cedula FROM Administrador admin")
+})
 public class Administrador implements Serializable{
     
     @Id

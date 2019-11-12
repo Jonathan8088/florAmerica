@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta name="viewport"    content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content=""/>
+        <meta name="author"      content="Sergey Pozhilov (GetTemplate.com)"/>
+
+        <title>Eliminar Administrador</title>
+
+        <link rel="shortcut icon" href="assets/images/gt_favicon.png"/>
+
+        <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700"/>
+        <link rel="stylesheet" href="resources/assets/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="resources/assets/css/font-awesome.min.css"/>
+
+        <!-- Custom styles for our template -->
+        <link rel="stylesheet" href="resources/assets/css/bootstrap-theme.css" media="screen"/>
+        <link rel="stylesheet" href="resources/assets/css/main.css"/>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+    </h:head>
+
+    <h:body>
+        <div class="navbar navbar-inverse navbar-fixed-top headroom" >
+            <div class="container">
+                <div class="navbar-header">
+                    <!-- Button for smallest screens -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <a class="navbar-brand" href=""><img src="assets/images/logo.png" alt="Progressus HTML5 template"/></a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav pull-right">
+                        <li><a href="crearAdministrador.xhtml">Crear Administrador</a></li>
+                        <li><a href="editarAdministrador.xhtml">Editar Administrador</a></li>
+                        <li><a href="eliminarAdministrador.xhtml">Eliminar Administrador</a></li>
+                        <li class="active"><p:commandButton value="Cerrar Sesion" action="index.xhtml"/></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div> 
+        <!-- /.navbar -->
+
+        <header id="head" class="secondary"></header>
+
+        <!-- container -->
+        <div class="container">
+
+            <ol class="breadcrumb">
+                <li><a href="superAdministrador.xhtml">Lista</a></li>
+                <li class="active">Eliminar Administrador</li>
+            </ol>
+
+            <div class="row">
+
+                <!-- Article main content -->
+                <article class="col-xs-12 maincontent">
+                    <header class="page-header">
+                        <h1 class="page-title">Eliminar Administrador</h1>
+                    </header>
+
+                    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h3 class="thin text-center">Eliminar</h3>
+                                <h:form id="form">
+                                    <p:growl id="gro" life="5000" showDetail="true" for="growlEdit"/>
+                                    <p:selectOneMenu id="cedulaAdmin" value="#{superAdmin.cedulaAdministrador}" style="width: 510px">
+                                        <p:ajax listener="#{superAdmin.cargarAdministrador()}" update=":form" />
+                                        <f:selectItem itemLabel="Seleccione Cedula" itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{superAdmin.listaNombreAdministrador()}" />
+                                    </p:selectOneMenu>
+                                    <br></br>
+                                    <div class="top-margin">
+                                        <p:outputLabel value="Nombre"/>
+                                        <p:inputText id="tb_nombreAd" value="#{superAdmin.admin.nombre}" class="form-control" required="true" disabled="true">
+                                        </p:inputText>
+                                    </div>
+                                    <div class="top-margin">
+                                        <p:outputLabel value="Cargo"/>
+                                        <p:inputText id="tb_cargoAd" value="#{superAdmin.admin.cargo}" class="form-control" required="true" disabled="true">
+                                        </p:inputText>
+                                    </div>
+                                    <div class="top-margin">
+                                        <p:outputLabel value="Cedula"/>
+                                        <p:inputText id="tb_cedulaAd" value="#{superAdmin.admin.cedula}" class="form-control" required="true" disabled="true">
+                                        </p:inputText>
+                                    </div>
+
+                                    <div class="row top-margin">
+                                        <div class="col-sm-6">
+                                            <p:outputLabel value="Contraseña"/>
+                                            <p:inputText id="tb_contraAd" value="#{superAdmin.admin.contrsena}" class="form-control" type="password" required="true" disabled="true">
+                                            </p:inputText>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p:outputLabel value="Salario"/>
+                                            <p:inputText id="tb_salarioAd" value="#{superAdmin.admin.salario}" class="form-control" required="true" disabled="true">
+                                            </p:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+
+                                        </div>
+                                        <br></br>
+                                        <div class="col-lg-4 text-right">
+                                            <p:commandButton value="Eliminar" action="#{superAdmin.eliminarAdministrador()}" class="btn btn-action" update=":form">
+                                                <p:confirm header="Confirmacion" message="Esta Seguro de Eliminar Empleado?"/>
+                                            </p:commandButton>
+                                            <h:form id="form2">
+                                                <p:confirmDialog global="true">
+                                                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
+                                                </p:confirmDialog>
+                                            </h:form>
+                                        </div>
+                                    </div>
+
+                                </h:form>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </article>
+                <!-- /Article -->
+
+            </div>
+        </div>	<!-- /container -->
+    </h:body>
+</html>
+
