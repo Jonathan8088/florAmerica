@@ -8,9 +8,11 @@ package Persistencia;
 import Interfaces.AdministradorFacadeLocal;
 import Interfaces.AbstractFacade;
 import Entity.Administrador;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -18,6 +20,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class AdministradorFacade extends AbstractFacade<Administrador> implements AdministradorFacadeLocal {
+
     @PersistenceContext(unitName = "com.mycompany_FlorAmerica-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -29,5 +32,18 @@ public class AdministradorFacade extends AbstractFacade<Administrador> implement
     public AdministradorFacade() {
         super(Administrador.class);
     }
-    
+
+    @Override
+    public Administrador buscarCedula(String cedula) {
+        TypedQuery<Administrador> consulta = em.createNamedQuery("buscarCedula", Administrador.class);
+        consulta.setParameter("cedula", cedula);
+        return consulta.getSingleResult();
+    }
+
+    @Override
+    public List<Administrador> traerCedulas() {
+        TypedQuery<Administrador> consulta = em.createNamedQuery("traerCedulaAdministrador", Administrador.class);
+        return consulta.getResultList();
+    }
+
 }

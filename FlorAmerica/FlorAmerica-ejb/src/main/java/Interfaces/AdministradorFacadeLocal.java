@@ -30,4 +30,7 @@ public interface AdministradorFacadeLocal {
 
     int count();
     
+    Administrador buscarCedula(String cedula);
+    
+     List<Administrador> traerCedulas();
 }

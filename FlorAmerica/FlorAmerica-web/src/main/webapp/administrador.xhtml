@@ -74,7 +74,7 @@ and open the template in the editor.
                                     <div class="top-margin">
                                         
                                             <p:outputLabel value="menu" class="text-danger" />
-                                            <p:inputText id="correo" value="#{operacion.usuario.correo}" class="form-control" validatorMessage="#{operacion.error()}"  required="true">
+                                            <p:inputText id="correo" value="#{logica.empleado.nombre}" class="form-control" validatorMessage="#{operacion.error()}"  required="true">
                                                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]" /> 
                                             </p:inputText>
                                        
@@ -82,7 +82,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="top-margin">
                                         <p:outputLabel value="Contraseña" class="text-danger" />
-                                        <p:inputText id="pass" type="password" value="#{operacion.usuario.contrasena}" class="form-control"  />
+                                        <p:inputText id="pass" type="password" value="#{logica.empleado.contrasena}" class="form-control"  />
 
                                     </div>
 
@@ -92,7 +92,7 @@ and open the template in the editor.
 
                                         <div class="col-lg-4 text-right">
 
-                                            <p:commandButton class="btn btn-action" value="Ingresar" action ="#{operacion.validar()}" ajax="true" update="growl"/>
+                                            <p:commandButton class="btn btn-action" value="Ingresar" action ="#{logica.crearEmpleado()}" ajax="true" update="growl"/>
 
                                         </div>
                                     </div>
