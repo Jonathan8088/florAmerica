@@ -8,9 +8,11 @@ package Persistencia;
 import Interfaces.TurnoFacadeLocal;
 import Interfaces.AbstractFacade;
 import Entity.Turno;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -28,6 +30,12 @@ public class TurnoFacade extends AbstractFacade<Turno> implements TurnoFacadeLoc
 
     public TurnoFacade() {
         super(Turno.class);
+    }
+
+    @Override
+    public List<Turno> turnoDesc() {
+               TypedQuery<Turno> consulta = em.createNamedQuery("listaTurnoDesc", Turno.class);
+        return consulta.getResultList();
     }
     
 }

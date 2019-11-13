@@ -104,7 +104,7 @@ public class Logica implements Serializable {
                         for (SuperAdministrador superAdmin1 : superAdmin) {
                             if(superAdmin1.getCedula().equals(trabajador.getCedula()) && superAdmin1.getContrasena().equals(trabajador.getContraseña())){
                                 trabajador = new Trabajador();
-                                System.out.println("super administrador");
+                                return "superAdministrador.xhtml";
                             }
                         }
                     }
@@ -142,7 +142,7 @@ public class Logica implements Serializable {
     public void Eliminar(Empleado emp) {
         empleadoLocal.remove(emp);
     }
-
+    
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();

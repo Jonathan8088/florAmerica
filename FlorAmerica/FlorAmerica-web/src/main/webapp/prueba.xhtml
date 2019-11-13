@@ -8,12 +8,30 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form>
-        <p:selectOneMenu id="cedulaAdmin" value="#{superAdmin.cedulaAdministrador}" >
-            <f:selectItem itemLabel="Seleccione Cedula" itemValue="" noSelectionOption="true" />
-            <f:selectItems value="#{superAdmin.listaNombreAdministrador()}" />
-        </p:selectOneMenu>
-            <p:commandButton value="Cargar" actionListener="#{superAdmin.eliminarAdministrador()}" class="btn btn-action"/>
+        <h:form id="form">
+            <p:growl id="grow" life="5000" showDetail="true" for="growl"/>
+            <div class="top-margin">
+                <p:outputLabel value="Duracion del turno"/>
+                <p:inputText id="tb_duracion" value="#{superAdmin.turnos.duracion}" class="form-control" required="true">
+                </p:inputText>
+                <p:message for="tb_duracion"/>
+            </div>
+            <div class="top-margin">
+                <p:outputLabel value="Meta del Turno "/>
+                <p:inputText id="tb_meta" value="#{superAdmin.turnos.meta}" class="form-control" required="true">
+                </p:inputText>
+                <p:message for="tb_meta"/>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+
+                </div>
+                <br></br>
+                <div class="col-lg-4 text-right">
+                    <p:commandButton value="Crear" action="#{superAdmin.crearTurno()}" class="btn btn-action" update=":form"/>
+                </div>
+
+            </div>
         </h:form>
     </h:body>
 </html>
