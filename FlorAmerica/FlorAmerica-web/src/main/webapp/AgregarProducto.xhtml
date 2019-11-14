@@ -15,7 +15,7 @@ and open the template in the editor.
         <meta name="description" content=""/>
         <meta name="author"      content="Sergey Pozhilov (GetTemplate.com)"/>
 
-        <title>Administrador</title>
+        <title>Agregar</title>
 
         <link rel="shortcut icon" href="assets/images/gt_favicon.png"/>
 
@@ -35,17 +35,15 @@ and open the template in the editor.
     </h:head>
 
     <h:body  >
-        <h:form>
+        <h:form id="principal">
             <!-- Fixed navbar -->
             <div class="navbar navbar-inverse navbar-fixed-top headroom" >
                 <div class="container">
                     <div class="navbar-header">
                         <!-- Button for smallest screens -->
 
-
                         <a class="navbar-brand" ><img src="resources/assets/images/logo.png" alt="Progressus HTML5 template"/></a>
-
-                        </div>
+                    </div>
 
                 </div>
             </div> 
@@ -53,6 +51,7 @@ and open the template in the editor.
 
             <header id="head" class="secondary"></header>
 
+            <!-- container -->
             <div class="container">
 
 
@@ -61,63 +60,57 @@ and open the template in the editor.
                     <!-- Article main content -->
                     <article class="col-xs-12 maincontent">
                         <header class="page-header">
-                            <h1 class="page-title"><p:outputLabel value="Bienvenido Administrador"/> </h1>
-                            <p:megaMenu   style="margin-top:20px">
-                                <p:submenu label="Produtos" icon="pi pi-check">
-                                    <p:column>
-                                        <p:submenu label="Productos">
-                                            <p:menuitem value="Agregar Producto" url="AgregarProducto.xhtml" />
-                                            <p:menuitem value="Ver Productos" url="EditarProducto.xhtml" />
-                                        </p:submenu>
-                                    </p:column>
-                                </p:submenu>
-                                <p:submenu label="Empleado" icon="pi pi-check">
-                                    <p:column>
-                                        <p:submenu label="Empleado">
-                                            <p:menuitem value="Agregar Empleado" url="AgregarEmpleado.xhtml" />
-                                            <p:menuitem value="Ver Empleados" url="EditarEmpleado.xhtml" />
-                                        </p:submenu>
-                                    </p:column>
-                                </p:submenu>
-                                <p:submenu label="Cama" icon="pi pi-check">
-                                    <p:column>
-                                        <p:submenu label="Cama">
-                                            <p:menuitem value="Agregar Cama" url="AgregarCama.xhtml" />
-                                            <p:menuitem value="Ver Camas" url="EditarCama.xhtml" />
-                                        </p:submenu>
-                                    </p:column>
-                                </p:submenu>
-                                <p:submenu label="Turno" icon="pi pi-check">
-                                    <p:column>
-                                        <p:submenu label="Turno">
-                                            <p:menuitem value="Datos del turno" url="turno.xhtml" />
-                                            
-                                        </p:submenu>
-                                    </p:column>
-                                </p:submenu>
-                                <p:submenu label="Cerrar sesión" icon="pi pi-check">
-                                    <p:column>
-                                        <p:submenu label="Cerrar sesión">
-                                            <p:menuitem value="Cerrar sesión" url="index.xhtml" />
-                                        </p:submenu>
-                                    </p:column>
-                                </p:submenu>
-                               
-                            </p:megaMenu>
-
+                            <h1 class="page-title"><p:outputLabel value="Agregar Producto"/> </h1>
                         </header>
 
+                        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
 
+                                    <h3 class="thin text-center"><p:outputLabel class="thin text-center" value="Datos del producto" /></h3>
+                                    
+
+
+                                    
+                                        <p:growl id="growl" life="5000" showDetail="true" sticky="true"/>
+                                        <div class="top-margin">
+
+                                            <p:outputLabel value="Nombre de producto: " class="text-danger" />
+                                            <p:inputText id="Nombre"  value="#{logica.producto.nombre}" class="form-control"  required="true">
+
+                                            </p:inputText>
+
+
+                                        </div>
+                                        <div class="top-margin">
+                                            <p:outputLabel value="Codigo del producto: " class="text-danger" />
+                                            <p:inputText id="codigo" type="number" value="#{logica.producto.codigo}" class="form-control" required="true" />
+
+                                        </div>
+
+                                        
+
+                                        <div class="container">
+                                            
+                                                <div class="row">
+
+                                                    <p:commandButton class="btn btn-action" value="Guardar" action ="#{logica.crearProducto(logica.producto)}" ajax="true" update=":principal"/>
+                                                    <p:button class="btn btn-action" value="Volver" href="administrador.xhtml"/>
+
+                                                </div>
+                                            
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
 
                     </article>
                     <!-- /Article -->
 
                 </div>
             </div>	<!-- /container -->
-
-            <!-- container -->
-   
-
 
 
             <footer id="footer" class="top-space">

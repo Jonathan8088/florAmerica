@@ -8,27 +8,32 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form id="form">
-            <p:growl id="grow" life="5000" showDetail="true" for="growl"/>
+        <h:form id="principal">
+            <p:growl id="growl" life="5000" showDetail="true" sticky="true"/>
             <div class="top-margin">
-                <p:outputLabel value="Duracion del turno"/>
-                <p:inputText id="tb_duracion" value="#{superAdmin.turnos.duracion}" class="form-control" required="true">
-                </p:inputText>
-                <p:message for="tb_duracion"/>
-            </div>
-            <div class="top-margin">
-                <p:outputLabel value="Meta del Turno "/>
-                <p:inputText id="tb_meta" value="#{superAdmin.turnos.meta}" class="form-control" required="true">
-                </p:inputText>
-                <p:message for="tb_meta"/>
-            </div>
-            <div class="row">
-                <div class="col-lg-8">
 
-                </div>
-                <br></br>
-                <div class="col-lg-4 text-right">
-                    <p:commandButton value="Crear" action="#{superAdmin.crearTurno()}" class="btn btn-action" update=":form"/>
+                <p:outputLabel value="Ancho" class="text-danger" />
+                <p:inputText id="ancho" type="number" value="#{logica.base.ancho}" class="form-control" validatorMessage="#{operacion.error()}"  required="true">
+
+                </p:inputText>
+
+
+            </div>
+            <div class="top-margin">
+                <p:outputLabel value="Largo" class="text-danger" />
+                <p:inputText id="largo" type="number" value="#{logica.base.largo}" class="form-control"  />
+
+            </div>
+
+
+
+            <div class="container">
+
+                <div class="row">
+
+                    <p:commandButton class="btn btn-action" value="Guardar" action ="#{logica.crearCama(logica.base)}" ajax="true" update=":principal"/>
+                    <p:button class="btn btn-action" value="Volver" href="administrador.xhtml"/>
+
                 </div>
 
             </div>

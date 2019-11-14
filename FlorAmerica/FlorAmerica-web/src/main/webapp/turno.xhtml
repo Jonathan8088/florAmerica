@@ -83,10 +83,12 @@
 
                                         </div>
                                         <br></br>
-                                        <div class="col-lg-4 text-right">
-                                            <p:commandButton value="Crear" action="#{superAdmin.crearTurno()}" class="btn btn-action" update=":form"/>
+                                        <div class="container">
+                                            <div class="row">
+                                                <p:commandButton value="Crear" action="#{superAdmin.crearTurno()}" class="btn btn-action" update=":form"/>
+                                                <p:button value="Volver" href="administrador.xhtml" class="btn btn-action" />
+                                            </div>
                                         </div>
-                                        
                                     </div>
                                 </h:form>
                             </div>

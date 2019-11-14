@@ -8,11 +8,13 @@ package com.mycompany;
 import Entity.Administrador;
 import Entity.Cama;
 import Entity.Empleado;
+import Entity.Producto;
 import Entity.SuperAdministrador;
 import Entity.Turno;
 import Interfaces.AdministradorFacadeLocal;
 import Interfaces.CamaFacadeLocal;
 import Interfaces.EmpleadoFacadeLocal;
+import Interfaces.ProductoFacadeLocal;
 import Interfaces.SuperAdministradorFacadeLocal;
 import Interfaces.TurnoFacadeLocal;
 import Modelo.Base;
@@ -20,6 +22,8 @@ import Modelo.Trabajador;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -27,8 +31,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
+/*
+ import org.primefaces.event.CellEditEvent;
+ import org.primefaces.event.RowEditEvent;
+ */
 
 /**
  *
@@ -46,22 +52,27 @@ public class Logica implements Serializable {
 
     @EJB
     TurnoFacadeLocal turnoLocal;
-    
+
     @EJB
     AdministradorFacadeLocal adminisradorLocal;
-    
+
     @EJB
     SuperAdministradorFacadeLocal superAdministradorLocal;
+    
+    @EJB
+    ProductoFacadeLocal productoLocal;
 
     Empleado empleado;
-    
+
     Administrador administrador;
-    
+
     SuperAdministrador superAdministrador;
 
     Cama cama;
 
     Turno turno;
+    
+    Producto producto;
 
     Trabajador trabajador;
 
@@ -69,13 +80,24 @@ public class Logica implements Serializable {
 
     List<Empleado> listaEmpleados;
 
+    List<Cama> listaCama;
+    
+    List<Producto> listaProductos;
+
+    @PostConstruct
+    public void listaEmpleados() {
+        listaEmpleados = empleadoLocal.findEmpleados();
+        listaCama = camaLocal.findAll();
+        listaProductos = productoLocal.findAll();
+    }
+
     public Logica() {
         empleado = new Empleado();
         cama = new Cama();
         turno = new Turno();
         trabajador = new Trabajador();
         base = new Base();
-        listaEmpleados = new ArrayList();
+        producto = new Producto();
     }
 
     public String validar() {
@@ -86,23 +108,23 @@ public class Logica implements Serializable {
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null, new FacesMessage("Successful", "Usuario identificado"));
                 Empleado empleado1 = empleadoLocal.findEmpleado(trabajador.getCedula());
-                if(empleado1.isEstado()){
+                if (empleado1.isEstado()) {
                     empleado1.setEstado(false);
-                }else{
+                } else {
                     empleado1.setEstado(true);
                 }
                 empleadoLocal.edit(empleado1);
                 return "index.xhtml";
-            } else{
+            } else {
                 List<Administrador> admin = adminisradorLocal.findAll();
                 for (Administrador admin1 : admin) {
-                    if(admin1.getCedula().equals(trabajador.getCedula()) && admin1.getContrasena().equals(trabajador.getContraseña())){
+                    if (admin1.getCedula().equals(trabajador.getCedula()) && admin1.getContrasena().equals(trabajador.getContraseña())) {
                         trabajador = new Trabajador();
                         return "administrador.xhtml";
-                    }else{
+                    } else {
                         List<SuperAdministrador> superAdmin = superAdministradorLocal.findAll();
                         for (SuperAdministrador superAdmin1 : superAdmin) {
-                            if(superAdmin1.getCedula().equals(trabajador.getCedula()) && superAdmin1.getContrasena().equals(trabajador.getContraseña())){
+                            if (superAdmin1.getCedula().equals(trabajador.getCedula()) && superAdmin1.getContrasena().equals(trabajador.getContraseña())) {
                                 trabajador = new Trabajador();
                                 return "superAdministrador.xhtml";
                             }
@@ -123,8 +145,17 @@ public class Logica implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Successful", "Empleado Agregado"));
     }
+
+    public void crearProducto(Producto producto1){
+        producto.setNombre(producto1.getNombre());
+        producto.setCodigo(producto1.getCodigo());
+        productoLocal.create(producto);
+    }
     
-    public void crearCama(Cama cama1){
+    public void crearCama(Base cama1) {
+        cama.setAncho(cama1.getAncho());
+        cama.setLargo(cama1.getLargo());
+        cama.setId_producto(1);
         camaLocal.create(cama);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Successful", "Cama Agregada"));
@@ -135,21 +166,54 @@ public class Logica implements Serializable {
         return listaEmpleados;
     }
 
+
     public void Editar(Empleado emp) {
         empleadoLocal.edit(emp);
     }
 
-    public void Eliminar(Empleado emp) {
+    public void Eliminar(Empleado emp) { 
         empleadoLocal.remove(emp);
     }
     
-    public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-        if (newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+    public void EditarCama(Cama cam) {
+        camaLocal.edit(cam);
+    }
+
+    public String EliminarCama(Cama cam) {
+        camaLocal.remove(cam);
+        return "EditarCama.xhtml";
+    }
+    
+    public void EditarProducto(Producto prod) {
+        productoLocal.edit(prod);
+    }
+
+    public void EliminarProducto(Producto prod) {
+        productoLocal.remove(prod);
+    }
+
+    public void editarEmpleado(Trabajador traba) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+
+            empleado = empleadoLocal.findEmpleado(traba.getCedula());
+            empleado.setNombre(traba.getNombre());
+            empleado.setArea(traba.getArea());
+            empleado.setSalario(traba.getSalario());
+            empleado.setContrasena(traba.getContraseña());
+            empleadoLocal.edit(empleado);
+            context.addMessage("growl", new FacesMessage("Mensaje", "Actualizado Correctamente."));
+            //listaTurnos();
+            context.addMessage("growl", new FacesMessage("Mensaje", "Las Camas Cortadas No Pueden Superar La Meta."));
+        } catch (Exception e) {
+
         }
+
+    }
+
+    public void cancelarEditar() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage("growl", new FacesMessage("Mensaje", "Actualizar Cancelado."));
     }
 
     public EmpleadoFacadeLocal getEmpleadoLocal() {
@@ -255,6 +319,39 @@ public class Logica implements Serializable {
     public void setSuperAdministrador(SuperAdministrador superAdministrador) {
         this.superAdministrador = superAdministrador;
     }
+
+    public List<Cama> getListaCama() {
+        return listaCama;
+    }
+
+    public void setListaCama(List<Cama> listaCama) {
+        this.listaCama = listaCama;
+    }
+
+    public ProductoFacadeLocal getProductoLocal() {
+        return productoLocal;
+    }
+
+    public void setProductoLocal(ProductoFacadeLocal productoLocal) {
+        this.productoLocal = productoLocal;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public List<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    public void setListaProductos(List<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
+    }
+
 
     
 }

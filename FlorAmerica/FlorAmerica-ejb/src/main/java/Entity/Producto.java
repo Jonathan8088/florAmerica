@@ -27,7 +27,7 @@ public class Producto implements Serializable{
     private int id;
     
     @Column
-    private String producto;
+    private String nombre;
     
     @Column
     private String codigo;
@@ -35,8 +35,8 @@ public class Producto implements Serializable{
     public Producto() {
     }
 
-    public Producto(String producto, String codigo) {
-        this.producto = producto;
+    public Producto(String nombre, String codigo) {
+        this.nombre = nombre;
         this.codigo = codigo;
     }
 
@@ -48,12 +48,12 @@ public class Producto implements Serializable{
         this.id = id;
     }
 
-    public String getProducto() {
-        return producto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setProducto(String producto) {
-        this.producto = producto;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getCodigo() {

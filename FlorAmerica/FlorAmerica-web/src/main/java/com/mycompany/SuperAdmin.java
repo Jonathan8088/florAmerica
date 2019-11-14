@@ -17,7 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.primefaces.event.RowEditEvent;
+//import org.primefaces.event.RowEditEvent;
 
 /**
  *

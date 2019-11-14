@@ -60,86 +60,69 @@ and open the template in the editor.
                     <!-- Article main content -->
                     <article class="col-xs-12 maincontent">
                         <header class="page-header">
-                            <h1 class="page-title"><p:outputLabel value="Lista de empleados"/> </h1>
+                            <h1 class="page-title"><p:outputLabel value="Lista de productos"/> </h1>
                         </header>
 
                         <p:growl id="grow1" life="5000" showDetail="true" for="growl"/>                                
-                        <p:dataTable id="tabla" var="lista" value="#{logica.listaEmpleados}"
+                        <p:dataTable id="tabla" var="lista" value="#{logica.listaProductos}"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                                      paginator="true" rows="10" editable="true" style="margin-bottom:20px">
                             <f:facet name="header">
-                                Row Editing
+                                Editar Productos
                             </f:facet>
 
-                            <p:ajax event="rowEdit" listener="#{logica.Editar(lista)}" update="tabla" />
+                            <p:ajax event="rowEdit" listener="#{logica.EditarProducto(lista)}" update="tabla" />
                             <p:ajax event="rowEdit" update=":formulario:grow1" />
                             <p:ajax event="rowEditCancel" listener="#{logica.cancelarEditar()}" update=":formulario:grow1" />
 
                             <f:facet name="{Exporters}">
                                 <div style="float:right;padding-top: 5px;">
                                     <h:commandLink value="Excel ">
-                                        <p:dataExporter type="xls" target="tbl" fileName="ListaTurno" />
+                                        <p:dataExporter type="xls" target="tabla" fileName="ListaTurno" />
                                     </h:commandLink>
 
                                     <h:commandLink value=" Pdf">
-                                        <p:dataExporter type="pdf" target="tbl" fileName="ListaTurno"/>
+                                        <p:dataExporter type="pdf" target="tabla" fileName="ListaTurno"/>
                                     </h:commandLink>
 
                                 </div>
                             </f:facet>
+
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Producto"/>
+                                </f:facet>
+                                <h:outputText value="Rosa" />
+                            </p:column>
 
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Nombre" />
                                 </f:facet>
                                 <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{lista.nombre}" /></f:facet>
-                                    <f:facet name="input"><p:inputText id="modelNombre" value="#{lista.nombre}" style="width:100%"/></f:facet>
+                                    <f:facet name="output"><h:outputText value="#{lista.nombre} " /></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelContra" value="#{lista.nombre}" style="width:100%"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Cedula"/>
-                                </f:facet>
-                                <h:outputText value="#{lista.cedula}" />
-                            </p:column>
-
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Contraseña" />
+                                    <h:outputText value="Codigo" />
                                 </f:facet>
                                 <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{lista.contrasena}" /></f:facet>
-                                    <f:facet name="input"><p:inputText id="modelContra" value="#{lista.contrasena}" style="width:100%"/></f:facet>
+                                    <f:facet name="output"><h:outputText value="#{lista.codigo}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelArea" value="#{lista.codigo}" style="width:100%"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
-
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Area" />
-                                </f:facet>
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{lista.area}" /></f:facet>
-                                    <f:facet name="input"><p:inputText id="modelArea" value="#{lista.area}" style="width:100%"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Salario" />
-                                </f:facet>
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{lista.salario}" /></f:facet>
-                                    <f:facet name="input"><p:inputText id="modelSalario" value="#{lista.salario}" style="width:100%"/></f:facet>
-                                </p:cellEditor>
-                            </p:column>
+                            
 
                             <p:column style="width:35px" exportable="false">
                                 <p:rowEditor />
                             </p:column>
 
                             <p:column style="width:120px" headerText="Eliminar">
-                                <p:commandButton value="Eliminar" action="#{logica.Eliminar(trabajador)}" />
+                                <p:commandButton value="Eliminar" action="#{logica.EliminarProducto(lista)}" update="formulario" />
                             </p:column>
                         </p:dataTable>
 
@@ -150,7 +133,7 @@ and open the template in the editor.
 
                             <div class="row">
 
-                               
+                                
                                 <p:button class="btn btn-action" value="Volver" href="administrador.xhtml" />
                             </div>
                         </div>

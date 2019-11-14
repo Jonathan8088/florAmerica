@@ -67,16 +67,16 @@ and open the template in the editor.
                             <div class="panel panel-default">
                                 <div class="panel-body">
 
-                                    <h3 class="thin text-center"><p:outputLabel class="thin text-center" value="Datos del empleado" /></h3>
+                                    <h3 class="thin text-center"><p:outputLabel class="thin text-center" value="Medidas de la cama" /></h3>
                                     
 
 
-                                    <h:form>
+                                    
                                         <p:growl id="growl" life="5000" showDetail="true" sticky="true"/>
                                         <div class="top-margin">
 
                                             <p:outputLabel value="Ancho" class="text-danger" />
-                                            <p:inputText id="ancho" type="number" value="#{logica.cama.ancho}" class="form-control" validatorMessage="#{operacion.error()}"  required="true">
+                                            <p:inputText id="ancho" type="number" value="#{logica.base.ancho}" class="form-control" validatorMessage="#{operacion.error()}"  required="true">
 
                                             </p:inputText>
 
@@ -84,7 +84,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="top-margin">
                                             <p:outputLabel value="Largo" class="text-danger" />
-                                            <p:inputText id="largo" type="number" value="#{logica.cama.largo}" class="form-control"  />
+                                            <p:inputText id="largo" type="number" value="#{logica.base.largo}" class="form-control"  />
 
                                         </div>
 
@@ -94,13 +94,13 @@ and open the template in the editor.
                                             
                                                 <div class="row">
 
-                                                    <p:commandButton class="btn btn-action" value="Guardar" action ="#{logica.crearEmpleado(logica.cama)}" ajax="true" update=":principal"/>
+                                                    <p:commandButton class="btn btn-action" value="Guardar" action ="#{logica.crearCama(logica.base)}" ajax="true" update=":principal"/>
                                                     <p:button class="btn btn-action" value="Volver" href="administrador.xhtml"/>
 
                                                 </div>
                                             
                                         </div>
-                                    </h:form>
+                                    
                                 </div>
                             </div>
 
