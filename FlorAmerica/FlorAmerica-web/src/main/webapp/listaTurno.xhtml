@@ -22,24 +22,42 @@
         <link rel="stylesheet" href="resources/assets/css/bootstrap-theme.css" media="screen"/>
         <link rel="stylesheet" href="resources/assets/css/main.css"/>
 
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-        <script src="assets/js/html5shiv.js"></script>
-        <script src="assets/js/respond.min.js"></script>
-        <![endif]-->
     </h:head>
 
-    <h:body  >
+    <h:body>
         <div class="navbar navbar-inverse navbar-fixed-top headroom" >
             <div class="container">
-                <div class="navbar-header">
-                    <!-- Button for smallest screens -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                    <a class="navbar-brand" href=""><img src="assets/images/logo.png" alt="Progressus HTML5 template"/></a>
-                </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav pull-right">
-                        <li><a href="turno.xhtml">Turno</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Empleado<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="EditarEmpleado.xhtml">Lista Empleados</a></li>
+                                <li class="active"><a href="AgregarEmpleado.xhtml">Crear Empleado</a></li>
+                            </ul>
+                        </li>              
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Producto<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="·">Lista</a></li>
+                                <li class="active"><a href="#">Crear</a></li>
+                            </ul>  
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cama<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="AgregarCama.xhtml">Crear Cama</a></li>
+                                <li class="active"><a href="#">Eliminar Cama</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Turno<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="listaTurno.xhtml">Lista</a></li>
+                                <li class="active"><a href="turno.xhtml">Crear</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="btn" href="index.xhtml">Cerrar Sesion</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -47,99 +65,92 @@
         <!-- /.navbar -->
 
         <header id="head" class="secondary"></header>
-
         <!-- container -->
+        <div class="container">
 
-        <div class="row">
 
-            <!-- Article main content -->
-            <article class="col-xs-12 maincontent">
-                <header class="page-header">
-                    <h1 class="page-title">Turnos</h1>
-                </header>
+            <div class="row">
 
-                <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3 class="thin text-center">Lista</h3>
+                <!-- Article main content -->
+                <article class="col-xs-12 maincontent">
+                    <header class="page-header">
+                        <h1 class="page-title"><p:outputLabel value="Turnos"/> </h1>
+                    </header>
+                    <h:form id="form">
+                        <p:growl id="grow" life="5000" showDetail="true" for="growl"/>   
+                        <p:outputLabel value="#{superAdmin.mensaje}">
 
-                            <h:form id="form">
-                                <p:growl id="grow" life="5000" showDetail="true" for="growl"/>                                
-                                <p:dataTable id="tbl" var="lista" value="#{superAdmin.listaTurno}"
-                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-                                             paginator="true" rows="10" editable="true" style="margin-bottom:20px">
-                                    <f:facet name="header">
-                                        Row Editing
-                                    </f:facet>
+                        </p:outputLabel>
+                        <p:dataTable id="tbl" var="lista" value="#{superAdmin.listaTurno}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                     paginator="true" rows="10" editable="true" style="margin-bottom:20px">
 
-                                    <p:ajax event="rowEdit" listener="#{superAdmin.editarTurno(lista)}" update="tbl" />
-                                     <p:ajax event="rowEdit" update=":form:grow" />
-                                    <p:ajax event="rowEditCancel" listener="#{superAdmin.cancelarEditar()}" update=":form:grow" />
+                            <p:ajax event="rowEdit" listener="#{superAdmin.editarTurno(lista)}" update="tbl" />
+                            <p:ajax event="rowEdit" update=":form:grow" />
+                            <p:ajax event="rowEditCancel" listener="#{superAdmin.cancelarEditar()}" update=":form:grow" />
 
-                                    <f:facet name="{Exporters}">
-                                        <div style="float:right;padding-top: 5px;">
-                                            <h:commandLink value="Excel ">
-                                                <p:dataExporter type="xls" target="tbl" fileName="ListaTurno" />
-                                            </h:commandLink>
+                            <f:facet name="{Exporters}">
+                                <div style="float:right;padding-top: 5px;">
+                                    <h:commandLink value=" Pdf" actionListener="#{superAdmin.exportarPDF(actionEvent)}">
+                                    </h:commandLink>
 
-                                            <h:commandLink value=" Pdf">
-                                                <p:dataExporter type="pdf" target="tbl" fileName="ListaTurno"/>
-                                            </h:commandLink>
+                                </div>
+                            </f:facet>
 
-                                        </div>
-                                    </f:facet>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Id" />
+                                </f:facet>
+                                <h:outputText value="#{lista.id}" />
+                            </p:column>
 
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Id" />
-                                        </f:facet>
-                                        <h:outputText value="#{lista.id}" />
-                                    </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Duracion(Hora)"/>
+                                </f:facet>
+                                <h:outputText value="#{lista.duracion}" />
+                            </p:column>
 
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Duracion(Hora)"/>
-                                        </f:facet>
-                                        <h:outputText value="#{lista.duracion}" />
-                                    </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Meta" />
+                                </f:facet>
+                                <h:outputText value="#{lista.meta}" />
+                            </p:column>
 
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Meta" />
-                                        </f:facet>
-                                        <h:outputText value="#{lista.meta}" />
-                                    </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Promedio Corte(Horas)" />
+                                </f:facet>
+                                <h:outputText value="#{lista.promedio_corte}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Camas Cortadas" />
+                                </f:facet>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{lista.camas_cortadas}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput" value="#{lista.camas_cortadas}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
 
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Promedio Corte(Horas)" />
-                                        </f:facet>
-                                        <h:outputText value="#{lista.promedio_corte}" />
-                                    </p:column>
-                                    <p:column>
-                                        <f:facet name="header">
-                                            <h:outputText value="Camas Cortadas" />
-                                        </f:facet>
-                                        <p:cellEditor>
-                                            <f:facet name="output"><h:outputText value="#{lista.camas_cortadas}" /></f:facet>
-                                            <f:facet name="input"><p:inputText id="modelInput" value="#{lista.camas_cortadas}" style="width:100%"/></f:facet>
-                                        </p:cellEditor>
-                                    </p:column>
+                            <p:column style="width:35px" exportable="false">
+                                <p:rowEditor />
+                            </p:column>
+                        </p:dataTable>
+                        <p:poll interval="30" listener="#{superAdmin.calcularCambioTurno()}" update=":form:grow"/>
 
-                                    <p:column style="width:35px" exportable="false">
-                                        <p:rowEditor />
-                                    </p:column>
-                                </p:dataTable>
-                            </h:form>
+                        <div class="container">
+                            <div class="row">
+                                <p:button class="btn btn-action" value="Volver" href="administrador.xhtml" />
+                            </div>
                         </div>
-                    </div>
+                    </h:form>
+                </article>
+                <!-- /Article -->
 
-                </div>
-
-            </article>
-            <!-- /Article -->
-
-        </div>
+            </div>
+        </div>	<!-- /container -->
 
 
         <footer id="footer" class="top-space">
@@ -169,9 +180,6 @@
 
 
         </footer>	
-
-
-
 
         <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

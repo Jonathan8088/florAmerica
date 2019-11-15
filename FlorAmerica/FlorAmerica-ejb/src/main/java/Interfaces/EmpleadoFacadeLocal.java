@@ -33,5 +33,7 @@ public interface EmpleadoFacadeLocal {
     List<Empleado> findEmpleados();
     
     Empleado findEmpleado(String cedula); 
+    
+    List<Empleado> traerEstado();
             
 }

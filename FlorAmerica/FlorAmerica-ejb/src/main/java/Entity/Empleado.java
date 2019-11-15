@@ -23,7 +23,9 @@ import javax.persistence.Table;
 @Table
 @NamedQueries({
     @NamedQuery(name = "traerEmpleados", query = "SELECT emp FROM Empleado emp"),
-    @NamedQuery(name = "traerEmpleado", query = "SELECT emp FROM Empleado emp WHERE emp.cedula = :cedula")
+    @NamedQuery(name = "traerEmpleado", query = "SELECT emp FROM Empleado emp WHERE emp.cedula = :cedula"),
+    @NamedQuery(name = "traerEstado", query = "SELECT emp FROM Empleado emp WHERE emp.estado = true GROUP BY emp.id,emp.estado")
+    
 })
 public class Empleado implements Serializable{
     

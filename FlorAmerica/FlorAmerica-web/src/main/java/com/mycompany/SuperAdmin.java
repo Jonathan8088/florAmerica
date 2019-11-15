@@ -8,16 +8,34 @@ package com.mycompany;
 import Entity.*;
 import Interfaces.*;
 import Modelo.*;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-//import org.primefaces.event.RowEditEvent;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -33,6 +51,11 @@ public class SuperAdmin implements Serializable {
     @EJB
     TurnoFacadeLocal turnoFacadeLocal;
 
+    @EJB
+    EmpleadoFacadeLocal empleadoLocal;
+
+    private Empleado empleado;
+
     private Administrador administrador;
 
     private Turno turno;
@@ -44,6 +67,10 @@ public class SuperAdmin implements Serializable {
     private String cedulaAdministrador;
 
     private List<Turno> listaTurno;
+
+    private String mensaje;
+
+    int i = 0;
 
     public SuperAdmin() {
     }
@@ -142,7 +169,7 @@ public class SuperAdmin implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             if (tur.getCamas_cortadas() <= tur.getMeta()) {
-                float promedio = (tur.getCamas_cortadas()*tur.getDuracion())/tur.getMeta();
+                float promedio = (tur.getCamas_cortadas() * tur.getDuracion()) / tur.getMeta();
                 turno = turnoFacadeLocal.find(tur.getId());
                 turno.setDuracion(tur.getDuracion());
                 turno.setMeta(tur.getMeta());
@@ -151,8 +178,8 @@ public class SuperAdmin implements Serializable {
                 turnoFacadeLocal.edit(turno);
                 context.addMessage("growl", new FacesMessage("Mensaje", "Actualizado Correctamente."));
                 listaTurnos();
-            }else{
-                 context.addMessage("growl", new FacesMessage("Mensaje", "Las Camas Cortadas No Pueden Superar La Meta."));
+            } else {
+                context.addMessage("growl", new FacesMessage("Mensaje", "Las Camas Cortadas No Pueden Superar La Meta."));
             }
         } catch (Exception e) {
 
@@ -160,11 +187,73 @@ public class SuperAdmin implements Serializable {
 
     }
 
+    public void calcularCambioTurno() {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        Calendar calendario = Calendar.getInstance();
+        calendario = Calendar.getInstance();
+        int minutos = calendario.get((Calendar.MINUTE));
+        int minutosAdd;
+        List<Empleado> lista = new ArrayList<>();
+        lista = empleadoLocal.traerEstado();
+        try {
+            if (lista.size() == 0) {
+                i = i + 1;
+                System.out.println(i);
+            } else {
+                for (Empleado lista1 : lista) {
+                    if (lista1.isEstado() == true && i > 0) {
+                        minutosAdd = calendario.get((Calendar.MINUTE));
+                        minutosAdd = minutosAdd + i;
+                        int total = minutosAdd - minutos;
+                        context.addMessage("growl", new FacesMessage("Mensaje", String.valueOf(total) + " Minutos Demoro el Cambio de Turno"));
+                        i = 0;
+                        System.out.println(i);
+
+                    }
+                }
+            }
+        } catch (Exception e) {
+            /*lista = empleadoLocal.traerEstado();
+             if (lista.size() == 0) {
+             i = i + 1;
+             System.out.println(i);
+             }*/
+
+        }
+    }
+
+    public void avisoTurno() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            /*List<Turno> lista = turnoFacadeLocal.turnoDesc();
+             LocalTime horaf = hora.plusMinutes((long) lista.get(0).getDuracion());
+             if (hora.isBefore(horaf)){
+             mensaje = "Cambio de Turno.";
+             }*/
+        } catch (Exception e) {
+            context.addMessage("growl", new FacesMessage("Mensaje", e.toString()));
+        }
+    }
+
     public void cancelarEditar() {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage("growl", new FacesMessage("Mensaje", "Actualizar Cancelado."));
     }
 
+    public void exportarPDF(ActionEvent actionEvent) throws JRException, IOException {
+        File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reporteTurno.jasper"));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), null, new JRBeanCollectionDataSource(this.listaTurno));
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        response.addHeader("Content-disposition", "attachment; filename=ReporteTurno.pdf");
+        ServletOutputStream stream = response.getOutputStream();
+
+        JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
+
+        stream.flush();
+        stream.close();
+        FacesContext.getCurrentInstance().responseComplete();
+    }
     public AdministradorFacadeLocal getAdministradorFacadeLocal() {
         return administradorFacadeLocal;
     }
@@ -205,6 +294,14 @@ public class SuperAdmin implements Serializable {
         this.listaTurno = listaTurno;
     }
 
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
     public void vaciar() {
         admin = new Admin(0, null, null, null, null, (float) 0.0);
     }
@@ -217,5 +314,4 @@ public class SuperAdmin implements Serializable {
     public void vaciarTurno() {
         turno = new Turno((float) 0.0, 0, (float) 0.0, (float) 0.0);
     }
-
 }

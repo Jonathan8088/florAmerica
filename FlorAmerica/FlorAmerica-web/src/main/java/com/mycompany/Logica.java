@@ -20,17 +20,13 @@ import Interfaces.TurnoFacadeLocal;
 import Modelo.Base;
 import Modelo.Trabajador;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 /*
  import org.primefaces.event.CellEditEvent;
  import org.primefaces.event.RowEditEvent;

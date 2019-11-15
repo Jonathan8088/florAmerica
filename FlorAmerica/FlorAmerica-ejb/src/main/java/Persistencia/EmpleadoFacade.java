@@ -44,5 +44,11 @@ public class EmpleadoFacade extends AbstractFacade<Empleado> implements Empleado
         consulta.setParameter("cedula", cedula);
         return consulta.getSingleResult();
     }
+
+    @Override
+    public List<Empleado> traerEstado() {
+                TypedQuery<Empleado> consulta = em.createNamedQuery("traerEstado", Empleado.class);
+        return consulta.getResultList();
+    }
     
 }
