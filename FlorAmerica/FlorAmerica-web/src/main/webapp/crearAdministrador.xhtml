@@ -34,15 +34,15 @@
             <div class="container">
                 <div class="navbar-header">
                     <!-- Button for smallest screens -->
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                    <a class="navbar-brand" href=""><img src="assets/images/logo.png" alt="Progressus HTML5 template"/></a>
+                    <a class="navbar-brand" ><img src="resources/assets/images/logo.png" alt="Progressus HTML5 template"/></a>
+                    
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav pull-right">
-                        <li><a href="faces/crearAdministrador.xhtml">Crear Administrador</a></li>
-                        <li><a href="faces/editarAdministrador.xhtml">Editar Administrador</a></li>
-                        <li><a href="faces/eliminarAdministrador.xhtml">Eliminar Administrador</a></li>
-                        <li class="active"><p:commandButton value="Cerrar Sesion" action="index.xhtml"/></li>
+                        <li><a href="crearAdministrador.xhtml">Crear Administrador</a></li>
+                        <li><a href="editarAdministrador.xhtml">Editar Administrador</a></li>
+                        <li><a href="eliminarAdministrador.xhtml">Eliminar Administrador</a></li>
+                        <li><a href="index.xhtml">Cerrar sesion</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -102,7 +102,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <p:outputLabel value="Salario"/>
-                                            <p:inputText id="tb_salarioAd" value="#{superAdmin.admin.salario}" class="form-control" required="true">
+                                            <p:inputText id="tb_salarioAd" type="number" value="#{superAdmin.admin.salario}" class="form-control" required="true">
                                             </p:inputText>
                                             <p:message for="tb_salarioAd"/>
                                         </div>

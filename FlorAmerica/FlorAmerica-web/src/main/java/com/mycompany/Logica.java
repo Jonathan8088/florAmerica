@@ -19,7 +19,10 @@ import Interfaces.SuperAdministradorFacadeLocal;
 import Interfaces.TurnoFacadeLocal;
 import Modelo.Base;
 import Modelo.Trabajador;
+import Modelo.Turnos;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -54,7 +57,7 @@ public class Logica implements Serializable {
 
     @EJB
     SuperAdministradorFacadeLocal superAdministradorLocal;
-    
+
     @EJB
     ProductoFacadeLocal productoLocal;
 
@@ -67,7 +70,9 @@ public class Logica implements Serializable {
     Cama cama;
 
     Turno turno;
-    
+
+    private Turnos turnos = new Turnos();
+
     Producto producto;
 
     Trabajador trabajador;
@@ -76,12 +81,16 @@ public class Logica implements Serializable {
 
     List<Empleado> listaEmpleados;
 
-    List<Cama> listaCama;
-    
+    List<Cama> listaCama = new ArrayList<>();
+
+    Calendar calendario = Calendar.getInstance();
+
     List<Producto> listaProductos;
 
+    int minutosTurno, camasCortadas = 0;
+
     @PostConstruct
-    public void listaEmpleados() {
+    public void listaEmpleadosI() {
         listaEmpleados = empleadoLocal.findEmpleados();
         listaCama = camaLocal.findAll();
         listaProductos = productoLocal.findAll();
@@ -135,19 +144,24 @@ public class Logica implements Serializable {
     }
 
     public void crearEmpleado(Trabajador trabajador1) {
-        empleado = new Empleado(trabajador1.getNombre(), trabajador1.getCedula(), trabajador1.getContraseña(), trabajador1.getArea(), trabajador1.getSalario(), false);
-        empleadoLocal.create(empleado);
-        trabajador = new Trabajador();
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Successful", "Empleado Agregado"));
+        try {
+            Empleado buscarCedula = empleadoLocal.findEmpleado(trabajador1.getCedula());
+            context.addMessage("growl", new FacesMessage("Mensaje", "Cedula ya se Encuentra Registrada."));
+        } catch (Exception ex) {
+            empleado = new Empleado(trabajador1.getNombre(), trabajador1.getCedula(), trabajador1.getContraseña(), trabajador1.getArea(), trabajador1.getSalario(), false);
+            empleadoLocal.create(empleado);
+            trabajador = new Trabajador();
+            context.addMessage(null, new FacesMessage("Successful", "Empleado Agregado"));
+        }
     }
 
-    public void crearProducto(Producto producto1){
+    public void crearProducto(Producto producto1) {
         producto.setNombre(producto1.getNombre());
         producto.setCodigo(producto1.getCodigo());
         productoLocal.create(producto);
     }
-    
+
     public void crearCama(Base cama1) {
         cama.setAncho(cama1.getAncho());
         cama.setLargo(cama1.getLargo());
@@ -155,6 +169,8 @@ public class Logica implements Serializable {
         camaLocal.create(cama);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Successful", "Cama Agregada"));
+        minutosTurno = calendario.get((Calendar.MINUTE));
+        listaEmpleadosI();
     }
 
     public List<Empleado> traerEmpleados() {
@@ -162,24 +178,48 @@ public class Logica implements Serializable {
         return listaEmpleados;
     }
 
-
     public void Editar(Empleado emp) {
         empleadoLocal.edit(emp);
     }
 
-    public void Eliminar(Empleado emp) { 
+    public void Eliminar(Empleado emp) {
         empleadoLocal.remove(emp);
     }
-    
+
     public void EditarCama(Cama cam) {
         camaLocal.edit(cam);
     }
 
-    public String EliminarCama(Cama cam) {
+    public void EliminarCama(Cama cam) {
         camaLocal.remove(cam);
-        return "EditarCama.xhtml";
+        camasCortadas++;
+        List<Turno> listaTurno = turnoLocal.turnoDesc();
+        turno = listaTurno.get(0);
+        float horas = turno.getDuracion();
+        float promedio = horas / camasCortadas;
+        turno.setCamas_cortadas(camasCortadas);
+        turno.setPromedio_corte(promedio);
+        turnoLocal.edit(turno);
+        listaEmpleadosI();
     }
-    
+
+    public void crearTurno() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            turno = new Turno(turnos.getDuracion(), turnos.getMeta(), turnos.getPromedioCorte(), turnos.getCamasCortadas());
+            turnoLocal.create(turno);
+            context.addMessage("growl", new FacesMessage("Mensaje", "Turno Creado Correctamente."));
+            vaciarTurno();
+            camasCortadas = 0;
+        } catch (Exception e) {
+            context.addMessage("growl", new FacesMessage("Mensaje", e.toString()));
+        }
+    }
+
+    public void vaciarTurno() {
+        turno = new Turno((float) 0.0, 0, (float) 0.0, (float) 0.0);
+    }
+
     public void EditarProducto(Producto prod) {
         productoLocal.edit(prod);
     }
@@ -348,6 +388,4 @@ public class Logica implements Serializable {
         this.listaProductos = listaProductos;
     }
 
-
-    
 }

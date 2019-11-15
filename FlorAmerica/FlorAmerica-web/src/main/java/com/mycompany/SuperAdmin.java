@@ -72,6 +72,10 @@ public class SuperAdmin implements Serializable {
 
     int i = 0;
 
+    Calendar calendario = Calendar.getInstance();
+
+    int minutosTurno;
+
     public SuperAdmin() {
     }
 
@@ -138,17 +142,7 @@ public class SuperAdmin implements Serializable {
         }
     }
 
-    public void crearTurno() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        try {
-            turno = new Turno(turnos.getDuracion(), turnos.getMeta(), turnos.getPromedioCorte(), turnos.getCamasCortadas());
-            turnoFacadeLocal.create(turno);
-            context.addMessage("growl", new FacesMessage("Mensaje", "Turno Creado Correctamente."));
-            vaciarTurno();
-        } catch (Exception e) {
-            context.addMessage("growl", new FacesMessage("Mensaje", e.toString()));
-        }
-    }
+    
 
     public List<Administrador> listaAdministradores() {
         return administradorFacadeLocal.findAll();
@@ -162,7 +156,11 @@ public class SuperAdmin implements Serializable {
     @PostConstruct
     public void listaTurnos() {
         listaTurno = turnoFacadeLocal.turnoDesc();
-
+        minutosTurno = calendario.get((Calendar.MINUTE));
+        List<Turno> listaTurno = turnoFacadeLocal.turnoDesc();
+        float a = listaTurno.get(0).getDuracion();
+        
+        minutosTurno += (int)a;
     }
 
     public void editarTurno(Turno tur) {
@@ -186,30 +184,40 @@ public class SuperAdmin implements Serializable {
         }
 
     }
+    
+
 
     public void calcularCambioTurno() {
         FacesContext context = FacesContext.getCurrentInstance();
 
-        Calendar calendario = Calendar.getInstance();
         calendario = Calendar.getInstance();
         int minutos = calendario.get((Calendar.MINUTE));
         int minutosAdd;
         List<Empleado> lista = new ArrayList<>();
         lista = empleadoLocal.traerEstado();
+        for (Empleado lista1 : lista) {
+            lista1.setEstado(true);
+        }
+        
         try {
-            if (lista.size() == 0) {
-                i = i + 1;
-                System.out.println(i);
-            } else {
-                for (Empleado lista1 : lista) {
-                    if (lista1.isEstado() == true && i > 0) {
-                        minutosAdd = calendario.get((Calendar.MINUTE));
-                        minutosAdd = minutosAdd + i;
-                        int total = minutosAdd - minutos;
-                        context.addMessage("growl", new FacesMessage("Mensaje", String.valueOf(total) + " Minutos Demoro el Cambio de Turno"));
-                        i = 0;
-                        System.out.println(i);
 
+          if (minutos >= minutosTurno) {
+                System.out.println(i);
+                context.addMessage("growl", new FacesMessage("Mensaje", "Cambio de Turno"));
+                if (lista.size() == 0) {
+                    i = i + 1;
+                    System.out.println(i);
+                } else {
+                    for (Empleado lista1 : lista) {
+                        if (lista1.isEstado() == true && i > 0) {
+                            minutosAdd = calendario.get((Calendar.MINUTE));
+                            minutosAdd = minutosAdd + i;
+                            int total = minutosAdd - minutos;
+                            context.addMessage("growl", new FacesMessage("Mensaje", String.valueOf(total) + " Minutos Demoro el Cambio de Turno"));
+                            i = 0;
+                            System.out.println(i);
+
+                        }
                     }
                 }
             }
@@ -254,6 +262,7 @@ public class SuperAdmin implements Serializable {
         stream.close();
         FacesContext.getCurrentInstance().responseComplete();
     }
+
     public AdministradorFacadeLocal getAdministradorFacadeLocal() {
         return administradorFacadeLocal;
     }
@@ -311,7 +320,5 @@ public class SuperAdmin implements Serializable {
         cedulaAdministrador = null;
     }
 
-    public void vaciarTurno() {
-        turno = new Turno((float) 0.0, 0, (float) 0.0, (float) 0.0);
-    }
+    
 }

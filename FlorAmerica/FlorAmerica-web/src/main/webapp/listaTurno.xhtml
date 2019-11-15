@@ -108,37 +108,37 @@
                                 <f:facet name="header">
                                     <h:outputText value="Duracion(Hora)"/>
                                 </f:facet>
-                                <h:outputText value="#{lista.duracion}" />
+                                <h:outputText value="#{lista.duracion} Horas" />
                             </p:column>
 
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Meta" />
                                 </f:facet>
-                                <h:outputText value="#{lista.meta}" />
+                                <h:outputText value="#{lista.meta} Camas" />
                             </p:column>
 
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Promedio Corte(Horas)" />
                                 </f:facet>
-                                <h:outputText value="#{lista.promedio_corte}" />
+                                <h:outputText value="#{lista.promedio_corte} Horas" />
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Camas Cortadas" />
                                 </f:facet>
                                 <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{lista.camas_cortadas}" /></f:facet>
+                                    <f:facet name="output"><h:outputText value="#{lista.camas_cortadas} Camas" /></f:facet>
                                     <f:facet name="input"><p:inputText id="modelInput" value="#{lista.camas_cortadas}" style="width:100%"/></f:facet>
                                 </p:cellEditor>
                             </p:column>
 
-                            <p:column style="width:35px" exportable="false">
-                                <p:rowEditor />
-                            </p:column>
+                            
                         </p:dataTable>
+                        
                         <p:poll interval="30" listener="#{superAdmin.calcularCambioTurno()}" update=":form:grow"/>
+                        
 
                         <div class="container">
                             <div class="row">
